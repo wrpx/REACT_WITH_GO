@@ -1,7 +1,12 @@
-///useAuthStore.js
 import { create } from 'zustand';
 
-const useAuthStore = create((set) => {
+interface AuthState {
+  isAuthenticated: boolean;
+  login: () => void;
+  logout: () => void;
+}
+
+export const useAuthStore = create<AuthState>((set) => {
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
 
   return {
@@ -12,10 +17,7 @@ const useAuthStore = create((set) => {
     },
     logout: () => {
       localStorage.setItem("isAuthenticated", "false");
-      localStorage.removeItem("authToken");
       set({ isAuthenticated: false });
     },
   };
 });
-
-export default useAuthStore;
